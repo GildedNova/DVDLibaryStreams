@@ -4,6 +4,7 @@
  */
 package dvdlibrary.dao;
 
+import java.time.LocalDate;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -17,6 +18,9 @@ import java.util.Map;
 import java.util.Scanner;
 
 import dvdlibrary.dto.DVD;
+import java.util.Date;
+import java.util.OptionalDouble;
+import java.util.stream.Collectors;
 
 //Dejan Savic
 public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
@@ -215,40 +219,62 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
         // Clean up
         out.close();
     }
-
+    
     @Override
-    public List<DVD> findMoviesByYear() throws DVDLibraryDaoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<DVD> findMoviesByYear(int years) throws DVDLibraryDaoException {
+        loadDVDs();
+        List<DVD> movies = new ArrayList<DVD>(dvds.values());
+        List<DVD> moviesAfterN = movies.stream().filter((dvd) -> Integer.parseInt(dvd.getReleaseDate()) >= (LocalDate.now().getYear() - years)).collect(Collectors.toList());
+        return moviesAfterN;
     }
 
     @Override
-    public List<DVD> findMoviesByMpaa() throws DVDLibraryDaoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<DVD> findMoviesByMpaa(String mpaa) throws DVDLibraryDaoException {
+        loadDVDs();
+        List<DVD> movies = new ArrayList<DVD>(dvds.values());
+        List<DVD> moviesWithMpaa = movies.stream().filter((dvd) -> dvd.getMpaa().contentEquals(mpaa)).collect(Collectors.toList());
+        return moviesWithMpaa;
     }
 
     @Override
-    public List<DVD> findMoviesByDirector() throws DVDLibraryDaoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<DVD> findMoviesByDirector(String director) throws DVDLibraryDaoException {
+        loadDVDs();
+        List<DVD> movies = new ArrayList<DVD>(dvds.values());
+        List<DVD> moviesWithDirector = movies.stream().filter((dvd) -> dvd.getDirector().contentEquals(director)).collect(Collectors.toList());
+        return moviesWithDirector;
+    }
+    
+    @Override
+    public List<DVD> findMoviesByStudio(String studio) throws DVDLibraryDaoException {
+        loadDVDs();
+        List<DVD> movies = new ArrayList<DVD>(dvds.values());
+        List<DVD> moviesWithStudio = movies.stream().filter((dvd) -> dvd.getStudio().contentEquals(studio)).collect(Collectors.toList());
+        return moviesWithStudio;
     }
 
     @Override
-    public List<DVD> findMoviesByStudio() throws DVDLibraryDaoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public OptionalDouble findAverageMovieAge() throws DVDLibraryDaoException {
+        loadDVDs();
+        List<DVD> movies = new ArrayList<DVD>(dvds.values());
+        return movies.stream().mapToDouble((dvds) -> Double.parseDouble(dvds.getReleaseDate())).average();
     }
 
     @Override
-    public int findAverageMovieAge() throws DVDLibraryDaoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<DVD> findNewestMovie() throws DVDLibraryDaoException {
+        loadDVDs();
+        List<DVD> movies = new ArrayList<DVD>(dvds.values());
+        OptionalDouble maxYear = movies.stream().mapToDouble((dvds) -> Double.parseDouble(dvds.getReleaseDate())).max();
+        List<DVD> moviesWithMaxYear = movies.stream().filter((dvd) -> dvd.getReleaseDate().contains(maxYear.toString())).collect(Collectors.toList());
+        return moviesWithMaxYear;
     }
 
     @Override
-    public DVD findNewestMovie() throws DVDLibraryDaoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public DVD findOldestMovie() throws DVDLibraryDaoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<DVD> findOldestMovie() throws DVDLibraryDaoException {
+        loadDVDs();
+        List<DVD> movies = new ArrayList<DVD>(dvds.values());
+        OptionalDouble minYear = movies.stream().mapToDouble((dvds) -> Double.parseDouble(dvds.getReleaseDate())).min();
+        List<DVD> moviesWithMinYear = movies.stream().filter((dvd) -> dvd.getReleaseDate().contains(minYear.toString())).collect(Collectors.toList());
+        return moviesWithMinYear;
     }
     
     

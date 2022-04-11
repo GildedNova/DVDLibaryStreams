@@ -3,6 +3,7 @@ package dvdlibrary.dao;
 import java.util.List;
 
 import dvdlibrary.dto.DVD;
+import java.util.OptionalDouble;
 
 
 //Dejan Savic
@@ -50,19 +51,19 @@ public interface DVDLibraryDao {
     
     
     
-    List<DVD> findMoviesByYear() throws DVDLibraryDaoException;
+    List<DVD> findMoviesByYear(int years) throws DVDLibraryDaoException;
     
-    List<DVD> findMoviesByMpaa() throws DVDLibraryDaoException;
+    List<DVD> findMoviesByMpaa(String mpaa) throws DVDLibraryDaoException;
     
-    List<DVD> findMoviesByDirector() throws DVDLibraryDaoException;
+    List<DVD> findMoviesByDirector(String director) throws DVDLibraryDaoException;
     
-    List<DVD> findMoviesByStudio() throws DVDLibraryDaoException;
+    List<DVD> findMoviesByStudio(String studio) throws DVDLibraryDaoException;
     
-    int findAverageMovieAge() throws DVDLibraryDaoException;
+    OptionalDouble findAverageMovieAge() throws DVDLibraryDaoException;
     
-    DVD findNewestMovie() throws DVDLibraryDaoException;
+    List<DVD> findNewestMovie() throws DVDLibraryDaoException;
     
-    DVD findOldestMovie() throws DVDLibraryDaoException;
+    List<DVD> findOldestMovie() throws DVDLibraryDaoException;
     
     
 }
