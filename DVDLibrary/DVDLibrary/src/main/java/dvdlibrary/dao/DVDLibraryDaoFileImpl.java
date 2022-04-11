@@ -259,23 +259,33 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
         return movies.stream().mapToDouble((dvds) -> Double.parseDouble(dvds.getReleaseDate())).average();
     }
 
-    @Override
-    public List<DVD> findNewestMovie() throws DVDLibraryDaoException {
-        loadDVDs();
-        List<DVD> movies = new ArrayList<DVD>(dvds.values());
-        OptionalDouble maxYear = movies.stream().mapToDouble((dvds) -> Double.parseDouble(dvds.getReleaseDate())).max();
-        List<DVD> moviesWithMaxYear = movies.stream().filter((dvd) -> dvd.getReleaseDate().contains(maxYear.toString())).collect(Collectors.toList());
-        return moviesWithMaxYear;
-    }
+	@Override
+	public List<DVD> findNewestMovie() throws DVDLibraryDaoException {
+		loadDVDs();
+		List<DVD> movies = new ArrayList<DVD>(dvds.values());
+		OptionalDouble maxYear = movies.stream().mapToDouble((dvds) -> Double.parseDouble(dvds.getReleaseDate())).max();
+		int value = (int) maxYear.orElse(-1);
+		String valueS = String.valueOf(value);
+		List<DVD> moviesWithMaxYear = movies.stream().filter((dvd) -> dvd.getReleaseDate().contentEquals(valueS))
+				.collect(Collectors.toList());
+		// System.out.println(valueS);
+		// System.out.println(moviesWithMaxYear);
 
-    @Override
-    public List<DVD> findOldestMovie() throws DVDLibraryDaoException {
-        loadDVDs();
-        List<DVD> movies = new ArrayList<DVD>(dvds.values());
-        OptionalDouble minYear = movies.stream().mapToDouble((dvds) -> Double.parseDouble(dvds.getReleaseDate())).min();
-        List<DVD> moviesWithMinYear = movies.stream().filter((dvd) -> dvd.getReleaseDate().contains(minYear.toString())).collect(Collectors.toList());
-        return moviesWithMinYear;
-    }
+		return moviesWithMaxYear;
+	}
+
+	@Override
+	public List<DVD> findOldestMovie() throws DVDLibraryDaoException {
+		loadDVDs();
+		List<DVD> movies = new ArrayList<DVD>(dvds.values());
+		OptionalDouble minYear = movies.stream().mapToDouble((dvds) -> Double.parseDouble(dvds.getReleaseDate())).min();
+		int value = (int) minYear.orElse(-1);
+		String valueS = String.valueOf(value);
+		List<DVD> moviesWithMinYear = movies.stream().filter((dvd) -> dvd.getReleaseDate().contentEquals(valueS))
+				.collect(Collectors.toList());
+		// System.out.println(minYear.toString());
+		return moviesWithMinYear;
+	}
     
     
 
