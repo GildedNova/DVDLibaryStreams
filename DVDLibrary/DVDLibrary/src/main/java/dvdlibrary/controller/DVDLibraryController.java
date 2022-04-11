@@ -65,6 +65,34 @@ public class DVDLibraryController {
                         editDVD();
                         break;
                     case 6:
+                        //Movies by year
+                        findMoviesByYear();
+                        break;
+                    case 7:
+                        //By MPAA
+                        findMoviesByMPAA();
+                        break;
+                    case 8:
+                        //By Director
+                        findMoviesByDirector();
+                        break;
+                    case 9:
+                        //By Studio
+                        findMoviesByStudio();
+                        break;
+                    case 10:
+                        //Average Movie Age
+                        findAverageMovieAge();
+                        break;
+                    case 11:
+                        //Newest Movie
+                        findNewestMovie();
+                        break;
+                    case 12:
+                        //Oldest Movie
+                        findOldestMovie();
+                        break; 
+                    case 13:
                         //Sets while loop to false to exit program
                         keepGoing = false;
                         break;
@@ -124,7 +152,7 @@ public class DVDLibraryController {
     private void removeDVD() throws DVDLibraryDaoException {
         view.displayRemoveDVDBanner();
         String dvdTitle = view.getDVDIdChoice();
-        DVD removedDvd = dao.getDVD(dvdTitle);
+        DVD removedDvd = dao.removeDVD(dvdTitle);
         view.displayRemoveResult(removedDvd);
     }
 
@@ -137,5 +165,38 @@ public class DVDLibraryController {
     private void exitMessage() {
         view.displayExitBanner();
     }
-
+    private void findMoviesByYear() throws DVDLibraryDaoException{
+    	int years = view.displayMoviesByYear();
+    	List<DVD> result = dao.findMoviesByYear();
+    	view.displayDVDList(result);
+    	
+    }
+    private void findMoviesByMPAA() throws DVDLibraryDaoException{
+    	String rating = view.displayMoviesByMPAA();
+    	List<DVD> result = dao.findMoviesByMPAA();
+    	view.displayDVDList(result);
+    	
+    }
+    private void findMoviesByDirector() throws DVDLibraryDaoException {
+    	String director = view.displayMoviesByDirector();
+    	List<DVD> result = dao.findMoviesByDirector();
+    	view.displayDVDList(result);
+    }
+    private void findMoviesByStudio() throws DVDLibraryDaoException{
+    	String studio = view.displayMoviesByStudio();
+    	List<DVD> result = dao.findMoviesByStudio();
+    	view.displayDVDList(result);
+    }
+    private void findAverageMovieAge() throws DVDLibraryDaoException{
+    	int age = dao.findAverageMovieAge();
+    	view.displayAverageMovieAge(age);
+    }
+    private void findNewestMovie() throws DVDLibraryDaoException{
+    	DVD dvd = dao.findNewestMovie();
+    	view.displayNewestMovie();
+    }
+    private void findOldestMovie() throws DVDLibraryDaoException{
+    	DVD dvd = dao.findOldestMovie();
+    	view.displayOldestMovie(dvd);
+    }
 }
