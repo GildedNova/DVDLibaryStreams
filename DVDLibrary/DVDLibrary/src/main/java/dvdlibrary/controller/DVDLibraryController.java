@@ -192,11 +192,11 @@ public class DVDLibraryController {
     	view.displayAverageMovieAge(age);
     }
     private void findNewestMovie() throws DVDLibraryDaoException{
-    	DVD dvd = dao.findNewestMovie();
-    	view.displayNewestMovie();
+    	List<DVD> dvd = dao.findNewestMovie();
+    	view.displayDVDList(dvd);
     }
     private void findOldestMovie() throws DVDLibraryDaoException{
-    	DVD dvd = dao.findOldestMovie();
-    	view.displayOldestMovie(dvd);
+    	List<DVD> dvd = dao.findOldestMovie();
+    	view.displayDVDList(dvd);
     }
 }
