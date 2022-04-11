@@ -50,19 +50,61 @@ public interface DVDLibraryDao {
     DVD removeDVD(String title) throws DVDLibraryDaoException;
     
     
-    
+    /**
+     * Returns the DVD list associated with the years from current date minus
+     * given date.
+     *
+     * @param Number of years to search back
+     * @return the DVD list
+     */
     List<DVD> findMoviesByYear(int years) throws DVDLibraryDaoException;
     
+     /**
+     * Returns the DVD list associated with the mpaa given
+     *
+     * @param MPAA string
+     * @return the DVD list containing same mpaa
+     */
     List<DVD> findMoviesByMpaa(String mpaa) throws DVDLibraryDaoException;
     
+    /**
+     * Returns the DVD list associated with the director
+     *
+     * @param Director String
+     * @return the DVD list containing same director
+     */
     List<DVD> findMoviesByDirector(String director) throws DVDLibraryDaoException;
     
+     /**
+     * Returns the DVD list associated with the studio
+     *
+     * @param Studio String
+     * @return the DVD list containing same studio
+     */
     List<DVD> findMoviesByStudio(String studio) throws DVDLibraryDaoException;
     
+     /**
+     * Returns the average release date of all movies in DVD list
+     *
+     * @param DVD list
+     * @return optionalDouble of the average date
+     */
     OptionalDouble findAverageMovieAge() throws DVDLibraryDaoException;
     
+     /**
+     * Returns DVD list of the latest release date 
+     *
+     * @param DVD List 
+     * @return the DVD list containing only the latest release date
+     */
     List<DVD> findNewestMovie() throws DVDLibraryDaoException;
     
+     /**
+     * Returns DVD list of the earliest release date 
+     *
+     * @param DVD List 
+     * @return the DVD list containing only the earliest release date
+     */
     List<DVD> findOldestMovie() throws DVDLibraryDaoException;
     
     
