@@ -1,7 +1,7 @@
 package dvdlibrary.dao;
 
 import java.util.List;
-import dvdlibrary.dao.DVDLibraryDaoException;
+
 import dvdlibrary.dto.DVD;
 
 
@@ -47,6 +47,22 @@ public interface DVDLibraryDao {
      * was associated with the given student title
      */
     DVD removeDVD(String title) throws DVDLibraryDaoException;
+    
+    
+    
+    List<DVD> findMoviesByYear() throws DVDLibraryDaoException;
+    
+    List<DVD> findMoviesByMpaa() throws DVDLibraryDaoException;
+    
+    List<DVD> findMoviesByDirector() throws DVDLibraryDaoException;
+    
+    List<DVD> findMoviesByStudio() throws DVDLibraryDaoException;
+    
+    int findAverageMovieAge() throws DVDLibraryDaoException;
+    
+    DVD findNewestMovie() throws DVDLibraryDaoException;
+    
+    DVD findOldestMovie() throws DVDLibraryDaoException;
     
     
 }
