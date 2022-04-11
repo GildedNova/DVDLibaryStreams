@@ -224,6 +224,7 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
     public List<DVD> findMoviesByYear(int years) throws DVDLibraryDaoException {
         loadDVDs();
         List<DVD> movies = new ArrayList<DVD>(dvds.values());
+	//Filters movies list based on current year minus the value sent into method. Saves collection into moviesAfterN.     
         List<DVD> moviesAfterN = movies.stream().filter((dvd) -> Integer.parseInt(dvd.getReleaseDate()) >= (LocalDate.now().getYear() - years)).collect(Collectors.toList());
         return moviesAfterN;
     }
@@ -232,6 +233,7 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
     public List<DVD> findMoviesByMpaa(String mpaa) throws DVDLibraryDaoException {
         loadDVDs();
         List<DVD> movies = new ArrayList<DVD>(dvds.values());
+	//Filters movies list based on dvd object containing same MPAA string sent into method. Saves collection into moviesWithMpaa.
         List<DVD> moviesWithMpaa = movies.stream().filter((dvd) -> dvd.getMpaa().contentEquals(mpaa)).collect(Collectors.toList());
         return moviesWithMpaa;
     }
@@ -240,6 +242,7 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
     public List<DVD> findMoviesByDirector(String director) throws DVDLibraryDaoException {
         loadDVDs();
         List<DVD> movies = new ArrayList<DVD>(dvds.values());
+	//Filters movies list based on dvd object containing same director string sent into method. Saves collection into moviesWithDirector.
         List<DVD> moviesWithDirector = movies.stream().filter((dvd) -> dvd.getDirector().contentEquals(director)).collect(Collectors.toList());
         return moviesWithDirector;
     }
@@ -248,6 +251,7 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
     public List<DVD> findMoviesByStudio(String studio) throws DVDLibraryDaoException {
         loadDVDs();
         List<DVD> movies = new ArrayList<DVD>(dvds.values());
+	//Filters movies list based on dvd object containing same studio string sent into method. Saves collection into moviesWithStudio.
         List<DVD> moviesWithStudio = movies.stream().filter((dvd) -> dvd.getStudio().contentEquals(studio)).collect(Collectors.toList());
         return moviesWithStudio;
     }
@@ -256,6 +260,7 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
     public OptionalDouble findAverageMovieAge() throws DVDLibraryDaoException {
         loadDVDs();
         List<DVD> movies = new ArrayList<DVD>(dvds.values());
+	//Calculates average movie date by using stream. Maps dvd.getReleaseDate from string to double for calculation. Will return optionalDouble.    
         return movies.stream().mapToDouble((dvds) -> Double.parseDouble(dvds.getReleaseDate())).average();
     }
 
@@ -263,9 +268,12 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
 	public List<DVD> findNewestMovie() throws DVDLibraryDaoException {
 		loadDVDs();
 		List<DVD> movies = new ArrayList<DVD>(dvds.values());
+		//Finds the latest release date within movies list
 		OptionalDouble maxYear = movies.stream().mapToDouble((dvds) -> Double.parseDouble(dvds.getReleaseDate())).max();
+		//cast optionaldouble to integer then gets turned into string for comparison
 		int value = (int) maxYear.orElse(-1);
 		String valueS = String.valueOf(value);
+		//Creates a list of movies that only contain the latest release date
 		List<DVD> moviesWithMaxYear = movies.stream().filter((dvd) -> dvd.getReleaseDate().contentEquals(valueS))
 				.collect(Collectors.toList());
 		// System.out.println(valueS);
@@ -278,9 +286,12 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
 	public List<DVD> findOldestMovie() throws DVDLibraryDaoException {
 		loadDVDs();
 		List<DVD> movies = new ArrayList<DVD>(dvds.values());
+		//Finds the earliest release date within movies list
 		OptionalDouble minYear = movies.stream().mapToDouble((dvds) -> Double.parseDouble(dvds.getReleaseDate())).min();
+		//csat optionaldouble to integer then gets turned into string for comparison
 		int value = (int) minYear.orElse(-1);
 		String valueS = String.valueOf(value);
+		//Creates a list of movies that only contain the earliest release date
 		List<DVD> moviesWithMinYear = movies.stream().filter((dvd) -> dvd.getReleaseDate().contentEquals(valueS))
 				.collect(Collectors.toList());
 		// System.out.println(minYear.toString());
